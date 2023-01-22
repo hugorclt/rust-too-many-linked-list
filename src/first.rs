@@ -1,5 +1,7 @@
+use std::mem;
+
 pub struct List {
-	Head : Link,
+	head : Link,
 }
 
 enum Link {
@@ -14,10 +16,15 @@ struct Node {
 
 impl List {
 	pub fn new() -> Self {
-		List { Head: Link::Empty };
+		List { head: Link::Empty }
 	}
 
-	pub fn push(&mut self, elem : i32 ) -> void {
+    pub fn push(&mut self, elem: i32) {
+        let new_node = Box::new(Node {
+            elem: elem,
+            next: mem::replace(&mut self.head, Link::Empty),
+        });
 
-	}
+		self.head = Link::More(new_node);
+    }
 }
